@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    {{ recipe.title }} - Recipe Detail
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">{{ recipe.title }}</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4">
+                <div class="card-body">
+                    <div class="recipe-image mb-3">
+                        {% if recipe.recipe_image %}
+                            <img src="{{ recipe.recipe_image.url }}" alt="{{ recipe.title }}" class="img-fluid" style="max-height: 500px; object-fit: cover; width: 100%;">
+                        {% else %}
+                            <p>No image available.</p>
+                        {% endif %}
+                    </div>
+
+                    <p><strong>Category:</strong> {{ recipe.category.name }}</p>
+                    <p><strong>Created by:</strong> {{ recipe.user.username }}</p>
+                    <p><strong>Tags:</strong> 
+                        {% for tag in recipe.tags.all %}
+                            <span class="badge bg-primary">{{ tag.name }}</span>
+                        {% endfor %}
+                    </p>
+                    
+                    <div class="recipe-description mb-3">
+                        <h3>Description</h3>
+                        <p>{{ recipe.description|safe }}</p>
+                    </div>
+
+                    <div class="recipe-ingredients mb-3">
+                        <h3>Ingredients</h3>
+                        <p>{{ recipe.ingredients|safe }}</p>
+                    </div>
+
+                    <div class="recipe-instructions mb-3">
+                        <h3>Instructions</h3>
+                        <p>{{ recipe.instructions|safe }}</p>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Recipes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

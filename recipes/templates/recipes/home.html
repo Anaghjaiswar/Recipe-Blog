@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center">Welcome to the Recipe Blog</h1>
+        <p class="text-center">Explore amazing recipes shared by our users!</p>
+        <div class="text-center mb-4">
+            <form method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="RecipesSearch" value="{{ request.GET.RecipesSearch }}" placeholder="Find your Way to Your Most Favourite Recipes">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div class="text-center mb-4">
+            <a href="{% url 'recipe_create' user_id=request.user.id %}" class="btn btn-primary">Create Recipe</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="row mt-4">
+        {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img 
+                        src="{{ recipe.recipe_image.url }}" 
+                        class="card-img-top" 
+                        alt="{{ recipe.title }}" 
+                        style="object-fit: cover; height: 200px;" 
+                    />
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text">{{ recipe.description|truncatechars:100|safe }}</p><br>
+                        <a href="{% url 'recipe_detail' recipe.user.id recipe.slug %}" class="btn btn-primary">View Recipe</a>
+                        {% if request.user == recipe.user %}
+                            <a href="{% url 'recipe_update' recipe.user.id recipe.slug %}" class="btn btn-warning mb-2">Edit</a>
+                            <a href="{% url 'recipe_delete' recipe.user.id recipe.slug %}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-muted">
+                        Created by {{ recipe.user.first_name }}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No recipes available yet. Be the first to create one!</p>
+        {% endfor %}
+    </div> 
+{% endblock %}
