@@ -14,6 +14,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,6 +64,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+
+
+
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # },
+#     'render': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'recipe_db_em1j',
+#         'USER': 'recipe_db_em1j_user',
+#         'PASSWORD': '5OrjhDYWfKzX9tGG22T7RT3Hjkcnz1Hu',
+#         'HOST': 'dpg-cun17ulsvqrc73fmngi0-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     },
+# }
 
 # Render's postgre sql configuration
 DATABASES = {
@@ -158,11 +176,11 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # security settings# Security Settings
-SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_SSL_REDIRECT = not DEBUG  # Redirect to HTTPS only when not in debug mode
-SESSION_COOKIE_SECURE = not DEBUG  # Use secure cookies only when not in debug mode
-CSRF_COOKIE_SECURE = not DEBUG  # Use secure CSRF cookies only when not in debug mode
-X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking attacks
-SECURE_BROWSER_XSS_FILTER = True  # Enable browser's XSS filtering
-SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent content type sniffing
+# SECURE_HSTS_SECONDS = 31536000  # Enforce HTTPS
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_SSL_REDIRECT = not DEBUG  # Redirect to HTTPS only when not in debug mode
+# SESSION_COOKIE_SECURE = not DEBUG  # Use secure cookies only when not in debug mode
+# CSRF_COOKIE_SECURE = not DEBUG  # Use secure CSRF cookies only when not in debug mode
+# X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking attacks
+# SECURE_BROWSER_XSS_FILTER = True  # Enable browser's XSS filtering
+# SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent content type sniffing
