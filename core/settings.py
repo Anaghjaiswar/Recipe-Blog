@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from urllib.parse import urlparse, parse_qsl
 load_dotenv()
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -64,28 +64,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     },
-#     'render': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'recipe_db_em1j',
-#         'USER': 'recipe_db_em1j_user',
-#         'PASSWORD': '5OrjhDYWfKzX9tGG22T7RT3Hjkcnz1Hu',
-#         'HOST': 'dpg-cun17ulsvqrc73fmngi0-a.oregon-postgres.render.com',
-#         'PORT': '5432',
-#     },
-# }
-
-# # Render's postgre sql configuration
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+    }
 }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -115,6 +107,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+ 
+
+TINYMCE_API_KEY = os.getenv('TINYMCE_API_KEY')
 
 # TINY MCE configuration
 TINYMCE_DEFAULT_CONFIG = {
